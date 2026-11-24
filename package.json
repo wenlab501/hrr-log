@@ -1,0 +1,10 @@
+{
+  "name": "hrr-log",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Event-logging PWA for treadmill heart-rate-recovery tests",
+  "scripts": {
+    "test": "node --test \"tests/*.test.mjs\""
+  }
+}
