@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#20364D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="HRR Log">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>HRR 事件紀錄</title>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <main id="home" class="screen">
+    <header class="bar"><h1>HRR 事件紀錄</h1><span id="version" class="muted"></span></header>
+    <form id="new-session" class="card" autocomplete="off">
+      <label>受試者代碼<input name="participant_code" required placeholder="例如 S01"></label>
+      <p class="hint">只用代碼，請勿輸入姓名（英數字、底線、連字號，最多 32 字）。</p>
+      <label>Protocol<input name="protocol_label" placeholder="例如 9 km/h × 4 min"></label>
+      <label>操作者（選填）<input name="operator"></label>
+      <p id="form-error" class="error" hidden></p>
+      <button type="submit" class="primary">開始新場次</button>
+    </form>
+    <section class="card">
+      <h2>歷史場次</h2>
+      <p class="hint">資料只存在這支手機。每場結束後請立即匯出 CSV。</p>
+      <ul id="session-list" class="sessions"></ul>
+    </section>
+  </main>
+
+  <main id="test" class="screen" hidden>
+    <header class="status">
+      <div class="status-main"><span id="st-code"></span><span id="st-label"></span></div>
+      <div class="clocks">
+        <span>本狀態 <b id="st-elapsed">—</b></span>
+        <span>總時間 <b id="st-total">0:00</b></span>
+      </div>
+    </header>
+    <p id="warnings" class="warning" hidden></p>
+    <p id="wakelock-hint" class="warning" hidden>此瀏覽器無法保持螢幕常亮，請關閉自動鎖定。</p>
+    <section class="speed">
+      <span>下一組速度</span>
+      <button id="speed-down" type="button">−0.5</button>
+      <b id="speed-value">—</b><span>km/h</span>
+      <button id="speed-up" type="button">+0.5</button>
+    </section>
+    <section class="grid">
+      <button type="button" class="ev" data-event="run_start">跑步開始</button>
+      <button type="button" class="ev" data-event="run_stop">停止跑步</button>
+      <button type="button" class="ev" data-event="recovery_end">恢復結束</button>
+      <button type="button" class="ev" data-event="warmup_start">暖身開始</button>
+      <button type="button" class="ev" data-event="cooldown_start">緩和開始</button>
+      <button type="button" class="ev" data-event="sync">同步</button>
+    </section>
+    <section id="rpe-panel" class="rpe" hidden>
+      <span>RPE（第 <b id="rpe-bout"></b> 組，1–10）</span>
+      <div id="rpe-buttons" class="rpe-buttons"></div>
+      <button id="rpe-skip" type="button">略過</button>
+    </section>
+    <section class="tools">
+      <button id="btn-rpe" type="button">RPE</button>
+      <button id="btn-note" type="button">備註</button>
+      <button id="btn-undo" type="button">撤銷上一筆</button>
+    </section>
+    <ol id="recent" class="recent"></ol>
+    <button id="btn-end" type="button" class="danger">長按 1 秒：測試結束</button>
+    <p id="save-error" class="error clickable" hidden></p>
+    <section id="export-panel" class="overlay" hidden>
+      <div class="card">
+        <p>測試已結束。請立即匯出 CSV，資料只存在這支手機。</p>
+        <button id="btn-export-now" type="button" class="primary">匯出 CSV</button>
+        <button id="btn-export-later" type="button">稍後（回首頁）</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
